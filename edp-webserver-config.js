@@ -1,3 +1,6 @@
+var epr = require('edp-provider-rider');
+var stylusPlugin = epr.plugin();
+
 exports.port = 8848;
 exports.directoryIndexes = true;
 exports.documentRoot = __dirname;
@@ -26,21 +29,12 @@ exports.getLocations = function () {
         { 
             location: /\.css($|\?)/, 
             handler: [
-                autocss()
-            ]
-        },
-        { 
-            location: /\.less($|\?)/, 
-            handler: [
-                file(),
-                less()
-            ]
-        },
-        { 
-            location: /\.styl($|\?)/, 
-            handler: [
-                file(),
-                stylus()
+                autocss({
+                    stylus: {
+                        stylus: epr.stylus,
+                        use: stylusPlugin
+                    }
+                })
             ]
         },
         { 
